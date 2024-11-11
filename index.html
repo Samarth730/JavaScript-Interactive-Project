@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Project</title>
+    <style>
+        /* basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        /* Hidden section styling */
+        .section {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            background-color: white;
+        }
+        .home-button {
+            display: none;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        /* Color boxes */
+        .color-boxes {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .color-box {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+        .color-red { background-color: red; }
+        .color-green { background-color: green; }
+        .color-blue { background-color: blue; }
+        .color-yellow { background-color: yellow; }
+
+        /* Floating box */
+        .floating-box {
+            width: 50px;
+            height: 50px;
+            background-color: purple;
+            position: relative;
+            animation: float 1s infinite alternate;
+        }
+        @keyframes float {
+            from { top: 0; }
+            to { top: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Project</h1>
+    <div class="button-container">
+        <button class="button" onclick="renderPage('section1')">Button 1: Color Boxes</button>
+        <button class="button" onclick="renderPage('section2')">Button 2: Floating Box</button>
+        <button class="button" onclick="renderPage('section3')">Button 3: Counter</button>
+        <button class="button" onclick="renderPage('section4')">Button 4: Random Number</button>
+
+    </div>
+
+    <button class="button home-button" id="homeButton" onclick="goHome()">Home</button>
+
+    <!-- Section 1: Color Boxes -->
+    <div id="section1" class="section">
+        <h2>Color Boxes</h2>
+        <div class="color-boxes">
+            <div class="color-box color-red" onclick="changeBackgroundColor('red')"></div>
+            <div class="color-box color-green" onclick="changeBackgroundColor('green')"></div>
+            <div class="color-box color-blue" onclick="changeBackgroundColor('blue')"></div>
+            <div class="color-box color-yellow" onclick="changeBackgroundColor('yellow')"></div>
+        </div>
+        <button onclick="clearBackgroundColor()">Clear Background</button>
+    </div>
+
+    <!-- Section 2: Floating Box -->
+    <div id="section2" class="section">
+        <h2>Floating Box</h2>
+        <div class="floating-box" id="floatingBox"></div>
+        <button onclick="toggleFloating()">Toggle Floating</button>
+        <button onclick="clearFloating()">Clear Floating</button>
+    </div>
+
+    <!-- Section 3: Counter -->
+    <div id="section3" class="section">
+        <h2>Counter</h2>
+        <button onclick="incrementCounter()">Increment</button>
+        <button onclick="decrementCounter()">Decrement</button>
+        <p id="counterValue">0</p>
+        <button onclick="clearCounter()">Clear Counter</button>
+    </div>
+
+    <!-- Section 4: Random Number -->
+    <div id="section4" class="section">
+        <h2>Random Number Generator</h2>
+        <button onclick="generateRandomNumber()">Generate</button>
+        <p id="randomNumber">Click to generate a random number</p>
+        <button onclick="clearRandomNumber()">Clear Number</button>
+    </div>
+
+    <script>
+        // Function to render a specific page section and show the home button
+        function renderPage(sectionId) {
+            // Hide all sections and main buttons
+            document.querySelectorAll('.section').forEach(section => section.style.display = 'none');
+            document.querySelector('.button-container').style.display = 'none';
+            // Show the selected section and home button
+            document.getElementById(sectionId).style.display = 'block';
+            document.getElementById('homeButton').style.display = 'block';
+        }
+
+        // Function to go back to the homepage
+        function goHome() {
+            // Hide all sections and home button, show main buttons
+            document.querySelectorAll('.section').forEach(section => section.style.display = 'none');
+            document.querySelector('.button-container').style.display = 'flex';
+            document.getElementById('homeButton').style.display = 'none';
+            // Reset background color to default
+            document.body.style.backgroundColor = '#f4f4f9';
+        }
+
+        // Section 1: Change background color
+        function changeBackgroundColor(color) {
+            document.body.style.backgroundColor = color;
+        }
+        function clearBackgroundColor() {
+            document.body.style.backgroundColor = '#f4f4f9';
+        }
+
+        // Section 2: Toggle floating box animation
+        let isFloating = true;
+        function toggleFloating() {
+            const floatingBox = document.getElementById('floatingBox');
+            if (isFloating) {
+                floatingBox.style.animationPlayState = 'paused';
+            } else {
+                floatingBox.style.animationPlayState = 'running';
+            }
+            isFloating = !isFloating;
+        }
+        function clearFloating() {
+            document.getElementById('floatingBox').style.animationPlayState = 'paused';
+        }
+
+        // Section 3: Counter logic
+        let counter = 0;
+        function incrementCounter() {
+            counter++;
+            document.getElementById('counterValue').innerText = counter;
+        }
+        function decrementCounter() {
+            counter--;
+            document.getElementById('counterValue').innerText = counter;
+        }
+        function clearCounter() {
+            counter = 0;
+            document.getElementById('counterValue').innerText = counter;
+        }
+
+        // Section 4: Random number generator
+        function generateRandomNumber() {
+            const randomNumber = Math.floor(Math.random() * 100) + 1;
+            document.getElementById('randomNumber').innerText = `Random Number: ${randomNumber}`;
+        }
+        function clearRandomNumber() {
+            document.getElementById('randomNumber').innerText = 'Click to generate a random number';
+        }
+        
+
+
+
+    </script>
+</body>
+</html>
